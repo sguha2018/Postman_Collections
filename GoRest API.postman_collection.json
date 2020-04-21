@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "92e51f99-8d9f-4e7d-b6a5-db528bed38b9",
+		"name": "GoRest API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateData",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fc1cf5d9-da19-4a8f-9689-16ae0f9e3dd2",
+						"exec": [
+							"var random=Math.random().toString(36).substring(2);",
+							"var newEmail= \"abc\" + random + \"@gmail.com\";",
+							"pm.environment.set(\"newEmail\", newEmail);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7f516542-d0b4-4347-8b26-82f17f44bc95",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"First Name Check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.first_name).to.eql(\"Brian\");",
+							"});",
+							"",
+							"pm.test(\"Validate Email Address\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.email).to.eql(pm.environment.get(\"newEmail\"));",
+							"});",
+							"",
+							"const response=pm.response.json();",
+							"pm.globals.set(\"ID\",response.result.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Brian\",\n    \"last_name\": \"Ratke\",\n    \"email\": \"{{newEmail}}\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public-api/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public-api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PatchRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64417327-735b-47c1-89c1-2239230e5531",
+						"exec": [
+							"pm.test(\"Validate First Name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.result.first_name).to.eql(\"Roy\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\":\"Roy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public-api/users/{{ID}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public-api",
+						"users",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Data",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "36b48967-5251-4095-a5d1-53c18a30b005",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public-api/users/{{ID}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public-api",
+						"users",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "09bbbcbe-8dd7-40dc-97c2-04b2aabcd530",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0dfa4752-2836-4701-98fc-0393ee42d902",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
